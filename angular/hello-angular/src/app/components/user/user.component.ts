@@ -37,8 +37,24 @@ export class UserComponent implements OnInit {
   }
 
   // events
+  editUser(user){
+    console.log(user.dob.getDate()+"-"+user.dob.getMonth()+"-"+user.dob.getFullYear())
+    this.userForm.patchValue({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      salary: user.salary,
+      dob: user.dob
+    });
+  }
+
   saveUser(){
-    console.log(this.userForm.value);
+    let user;
+    user = this.users.filter(u => u.id == this.userForm.value.id);
+    console.log(user[0])
+    // this.users = this.users.filter(u=> u !== user[0]);
+    this.service.deleteUser(user[0]);
+    this.getUsers();
     this.addUser({
       id: this.userForm.value.id,
       name: this.userForm.value.name,
